@@ -1,0 +1,3 @@
+winapi/Debug
+winapi/Release
+*.exe
