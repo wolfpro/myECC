@@ -66,7 +66,7 @@ string get_Cm(string s) {
 				pair<pair<int, int>, pair<int, int> >cm = g_cm(val_c[j].ss);
 
 				ans = gi(cm.ff.ff) + " " + gi(cm.ff.ss) + " " + gi(cm.ss.ff) + " " + gi
-					(cm.ss.ss);
+				      (cm.ss.ss);
 				// cout << "Cm{(" << cm.ff.ff << ", " << cm.ff.ss << "), (" << cm.ss.ff << ", " << cm.ss.ss << ")} = ";
 
 				// deshifr
