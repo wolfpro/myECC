@@ -24,28 +24,54 @@ void add_log(AnsiString s) {
 	logs = log;
 }
 
-//old
+// old
 int d[MOD][MOD], nb = 45, k = 3;
-//new
-map <pair <int, int>, int > mapDiv;// a / b = c;
+// new
+map<pair<int, int>, int>mapDiv; // a / b = c;
+pair<int, int> dataMns[724];
 
 pair<int, int>G, Pm, Pb, Cm, E;
 
 void make_Pb();
 
-int get_nb() {return nb;}
-int get_k() {return k;}
-void set_nb(int a) {nb = a;}
-void set_k(int a) {k = a;}
-void set_E(pair<int, int>a) {E = a;}
-void set_G(pair<int, int>a) {G = a;}
+int get_nb() {
+	return nb;
+}
 
-pair<int, int>get_E() {return E;}
-pair<int, int>get_G() {return G;}
-pair<int, int>get_Pb() {make_Pb(); return Pb;}
+int get_k() {
+	return k;
+}
 
+void set_nb(int a) {
+	nb = a;
+}
 
-//optimistic DO NOT dell comment
+void set_k(int a) {
+	k = a;
+}
+
+void set_E(pair<int, int>a) {
+	E = a;
+}
+
+void set_G(pair<int, int>a) {
+	G = a;
+}
+
+pair<int, int>get_E() {
+	return E;
+}
+
+pair<int, int>get_G() {
+	return G;
+}
+
+pair<int, int>get_Pb() {
+	make_Pb();
+	return Pb;
+}
+
+// optimistic DO NOT dell comment
 int divv(int a, int b) {
 	a %= MOD, b %= MOD;
 	while (a < 0 || b < 0) {
@@ -53,14 +79,14 @@ int divv(int a, int b) {
 		b < 0 ? b = b + MOD : b;
 	}
 
-	/*work, but not speed;
+	/* work, but not speed;
 	int t = 0;
 	while (d[b][t] != a && t < MOD)
-		t++;
+	t++;
 
 	return t;
-	*/
-	//new
+	 */
+	// new
 	return mapDiv.find(mapa(a, b))->ss;
 }
 
@@ -113,31 +139,31 @@ void set_def() {
 	nb = 45;
 	k = 3;
 
-	//new
+	//new divv
 	mapDiv.clear();
-
 	for (int i = 0; i < MOD; ++i) {
 		for (int j = 0; j < MOD; ++j) {
-			//old, work, but not speed;
-			//d[i][j] = (i * j) % MOD;
-			//new
-//			mapDiv.emplace(mapa((i * j) % MOD, i), j);
+			// old, work, but not speed;
+			// d[i][j] = (i * j) % MOD;
+			// new
+			// mapDiv.emplace(mapa((i * j) % MOD, i), j);
 			mapDiv[mapa((i * j) % MOD, i)] = j;
 		}
 	}
-	make_Pb(); // mapa(406, 397);
-}
-
-pair<int, int>mns(pair<int, int>a, pair<int, int>b) {
-	for (int i = 1; i < MOD; ++i) {
+	//new mns
+	for (int i = 1, tlen = 0; i < MOD; ++i) {
+		int t = i * i * i - i + 1;
+		t %= MOD;
 		for (int j = 1; j < MOD; ++j) {
-			if (sum(b, mapa(i, j)) == a) {
-				return mapa(i, j);
+			if ((j * j) % MOD == t) {
+				//cout << i << "," << j << endl;
+				dataMns[tlen++]= mapa(i, j);
 			}
 		}
 	}
 
-	return mapa(-1, -1);
+
+	make_Pb(); // mapa(406, 397);
 }
 
 // get Cm
@@ -159,6 +185,21 @@ pair<pair<int, int>, pair<int, int> >g_cm(pair<int, int>data) {
 	return mapa(a, b);
 }
 
+//DO NOT DELLET comment, otimasing
+pair<int, int>mns(pair<int, int>a, pair<int, int>b) {
+	//old
+	//for (int i = 1; i < MOD; ++i) {
+	//	for (int j = 1; j < MOD; ++j) {
+	for (int k = 0; k < 724; ++k) {
+		int i = dataMns[k].ff, j = dataMns[k].ss;
+		if (sum(b, mapa(i, j)) == a) {
+			return mapa(i, j);
+		}
+	}
+	//}
+	return mapa(-1, -1);
+}
+
 pair<int, int>rev(pair<pair<int, int>, pair<int, int> >cm) {
 	// cm.ss - nb*cm.ff
 	pair<int, int>kg = cm.ff;
@@ -166,9 +207,7 @@ pair<int, int>rev(pair<pair<int, int>, pair<int, int> >cm) {
 		kg = sum(kg, cm.ff);
 	}
 
-	kg = mns(cm.ss, kg);
-	// cout << kg.ff << "," << kg.ss << endl;
-	return kg;
+	return mns(cm.ss, kg);
 }
 
 const int CLEN = 256;
@@ -183,6 +222,7 @@ AnsiChar get_vlc(int i) {
 // main()
 void set_df_val() {
 	// 531
+
 	x = 1, y = 1, an = 0;
 	for (; x < MOD && an < CLEN; ++x) {
 		int t = x * x * x - x + 1;
@@ -274,6 +314,7 @@ AnsiString get_sym(pair<pair<int, int>, pair<int, int> >cm) {
 	AnsiString ans = "";
 	// deshifr
 	pair<int, int>rp = rev(cm);
+
 	if (rp.ff < 0) {
 		int trt = 0;
 	}

@@ -15,6 +15,9 @@ const int MOD = 751;
 //old
 int d[MOD][MOD];
 
+//new
+pair<int, int> dataMns[724];
+
 int divvOld(int a, int b) {
 	int t = 0;
 	while (d[b][t] != a && t < MOD)
@@ -46,6 +49,19 @@ int divvNew(int a, int b) {
 }
 
 int main() {
+	int lenght = 0;
+	for (int i = 1; i < MOD; ++i) {
+		int t = i * i * i - i + 1;
+		t %= MOD;
+		for (int j = 1; j < MOD; ++j) {
+			if ((j * j) % MOD == t) {
+				if (i == 206)
+					cout << i << " " << j << endl;
+				//cout << i << "," << j << endl;
+			}
+		}
+	}
+
 	int tS;
 	int num = 1000 * 1000 * 10;
 
